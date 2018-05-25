@@ -1,0 +1,27 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:10-alpine
+    ports:
+      - "5432"
+    volumes:
+      - postgres_vol:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=decode
+      - POSTGRES_DB=postgres
+
+  datastore:
+    image: thingful/iotstore-amd64:v0.0.2
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      - IOTSTORE_DATABASE_URL=postgres://decode:password@postgres:5432/postgres?sslmode=disable
+    depends_on:
+      - postgres
+    command: server
+
+volumes:
+  postgres_vol:
