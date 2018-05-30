@@ -12,17 +12,21 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=decode
       - POSTGRES_DB=postgres
+      - DATABASES=iotstore
 
   datastore:
     image: thingful/iotstore-amd64:v0.0.2
     ports:
-      - "8080:8080"
+      - "8080"
     restart: always
     environment:
-      - IOTSTORE_DATABASE_URL=postgres://decode:password@postgres:5432/postgres?sslmode=disable
+      - IOTSTORE_DATABASE_URL=postgres://decode:password@postgres:5432/iotstore?sslmode=disable
     depends_on:
       - postgres
-    command: server
+    volumes:
+      - ./docker:/docker
+    entrypoint: /docker/entrypoint.sh
+    command: [ "/iotstore", "server" ]
 
 volumes:
   postgres_vol:
