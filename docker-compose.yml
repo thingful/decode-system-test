@@ -12,21 +12,48 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=decode
       - POSTGRES_DB=postgres
-      - DATABASES=iotstore
+      - DATABASES=iotstore,iotencoder
 
   datastore:
-    image: thingful/iotstore-amd64:v0.0.2
+    build:
+      context: ./iotpilot
+      dockerfile: Dockerfile.iotstore
     ports:
-      - "8080"
+      - "8080:8080"
     restart: always
     environment:
       - IOTSTORE_DATABASE_URL=postgres://decode:password@postgres:5432/iotstore?sslmode=disable
     depends_on:
       - postgres
-    volumes:
-      - ./docker:/docker
-    entrypoint: /docker/entrypoint.sh
+    entrypoint: /entrypoint.sh
     command: [ "/iotstore", "server" ]
+
+  encoder:
+    build:
+      context: ./iotpilot
+      dockerfile: Dockerfile.iotenc
+    ports:
+      - "8081:8080"
+    restart: always
+    environment:
+      - IOTENCODER_DATABASE_URL=postgres://decode:password@postgres:5432/iotencoder?sslmode=disable
+      - IOTENCODER_ENCRYPTION_PASSWORD=EQyDADzzGhQ1TVrlDj6X4jCI
+      - IOTENCODER_HASHID_SALT=b4316b2894917fb5bb924c5df6db30384b1c
+    depends_on:
+      - postgres
+      - datastore
+      - broker
+    entrypoint: /entrypoint.sh
+    command: [ "/iotenc", "server", "--datastore", "http://datastore:8080" ]
+
+  broker:
+    image: thingful/scfake:v0.0.2
+    ports:
+      - "1883"
+      - "8082:8080"
+    restart: always
+    environment:
+      - HTTP_PORT=8080
 
 volumes:
   postgres_vol:

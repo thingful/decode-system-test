@@ -13,4 +13,11 @@ until nc -z postgres:5432 || [ "$RETRIES" -eq 0 ]; do
   sleep 1
 done
 
+RETRIES=5
+
+until nc -z broker:1883 || [ "$RETRIES" -eq 0 ]; do
+  echo "Waiting for broker, $((RETRIES--)) remaining attempts"
+  sleep 1
+done
+
 "$@"
