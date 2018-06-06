@@ -1,0 +1,36 @@
+# my global config
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'iotpilot'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'datastore'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['datastore:8080']
+
+  - job_name: 'encoder'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['encoder:8080']
+
+  - job_name: 'broker'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['broker:8080']
+
+  - job_name: 'grafana'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['grafana:3000']
