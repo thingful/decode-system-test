@@ -2,23 +2,57 @@
 
 set -euo pipefail
 
-# This script attempts to invoke the three RPC methods exposed by the datastore
-# via Curl just for quick local sanity checking. Requires base64, curl and jq
-# tools installed and available on the current $PATH to run.
+# This script attempts to invoke the RPC methods exposed by our components via
+# Curl just for quick local sanity checking. Requires base64, curl and jq tools
+# installed and available on the current $PATH to run.
 
-echo "--> create a stream"
-curl --request "POST" \
-     --location "http://localhost:8081/twirp/encoder.Encoder/CreateStream" \
-     --header "Content-Type: application/json" \
-     --silent \
-     --data '{"broker_address":"tcp://broker:1883","device_topic":"device/sck/2047f0/readings","device_private_key":"abc123","recipient_public_key":"hij567","user_uid":"alice","location":{"longitude":0.023,"latitude":55.253},"disposition":"INDOOR"}' \
+function print {
+  echo "--> $1"
+}
+
+function claim_device {
+  print "claim device"
+
+  local data="{\"deviceToken\":\"$2\",\"broker\":\"tcp://broker:1883\",\"userUid\":\"$3\",\"location\":{\"longitude\":-0.2983,\"latitude\":55.5212},\"disposition\":\"INDOOR\"}"
+
+  echo $data | jq "."
+
+  curl --request "POST" \
+       --location "$1/twirp/devicereg.DeviceRegistration/ClaimDevice" \
+       --header "Content-Type: application/json" \
+       --verbose \
+       --data "$data" \
+  #     | jq "."
+}
+
+function create_stream {
+  print "create a stream"
+
+  local data="{\"brokerAddress\":\"tcp://broker:1883\",\"deviceTopic\":\"device/sck/$2/readings\",\"devicePrivateKey\":\"abc123\",\"recipientPublicKey\":\"hij567\",\"userUid\":\"alice\",\"location\":{\"longitude\":0.023,\"latitude\":55.253},\"disposition\":\"INDOOR\"}"
+
+  echo $data | jq "."
+
+  curl --request "POST" \
+       --location "$1/twirp/encoder.Encoder/CreateStream" \
+       --header "Content-Type: application/json" \
+       --verbose \
+       --data "$data" \
      | jq "."
+}
 
-sleep 5
+function delete_stream {
+  print "delete a stream"
 
-curl --request "POST" \
-     --location "http://localhost:8081/twirp/encoder.Encoder/CreateStream" \
-     --header "Content-Type: application/json" \
-     --silent \
-     --data '{"broker_address":"tcp://broker:1883","device_topic":"device/sck/f4d5fb/readings","device_private_key":"abc123","recipient_public_key":"hij567","user_uid":"alice","location":{"longitude":0.023,"latitude":55.253},"disposition":"INDOOR"}' \
+  local data="{\"streamUid\":\"$2\"}"
+
+  echo $data | jq "."
+
+  curl --request "POST" \
+       --location "$1/twirp/encoder.Encoder/DeleteStream" \
+       --header "Content-Type: application/json" \
+       --verbose \
+       --data "$data" \
      | jq "."
+}
+
+"$@"

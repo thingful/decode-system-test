@@ -25,6 +25,11 @@ scrape_configs:
     static_configs:
       - targets: ['encoder:8080']
 
+  - job_name: 'devicereg'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['devicereg:8080']
+
   - job_name: 'broker'
     scrape_interval: 30s
     static_configs:
