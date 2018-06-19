@@ -1,2 +1,2 @@
-FROM thingful/iotenc-amd64:v0.0.7
+FROM thingful/iotenc-amd64:v0.0.9
 COPY entrypoint.sh /entrypoint.sh

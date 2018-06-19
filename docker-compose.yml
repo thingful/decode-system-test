@@ -4,7 +4,7 @@ services:
     build:
       context: ./postgres
     ports:
-      - "5432"
+      - "5432:5432"
     volumes:
       - postgres_vol:/var/lib/postgresql/data
     restart: always
@@ -19,7 +19,7 @@ services:
       context: ./iotpilot
       dockerfile: Dockerfile.iotstore
     ports:
-      - "8082:8080"
+      - "8080:8080"
     restart: always
     environment:
       - IOTSTORE_DATABASE_URL=postgres://decode:password@postgres:5432/iotstore?sslmode=disable
@@ -46,24 +46,24 @@ services:
     entrypoint: /entrypoint.sh
     command: [ "/iotenc", "server", "--datastore", "http://datastore:8080", "--verbose" ]
 
-  #devicereg:
-  #  build:
-  #    context: ./iotpilot
-  #    dockerfile: Dockerfile.devicereg
-  #  ports:
-  #    - "8082:8080"
-  #  restart: always
-  #  environment:
-  #    - DEVICEREG_DATABASE_URL=postgres://decode:password@postgres:5432/devicereg?sslmode=disable
-  #    - DEVICEREG_ENCRYPTION_PASSWORD=bKJW20u1PsvQSrmJojzoG2EJ
-  #  depends_on:
-  #    - postgres
-  #    - encoder
-  #  entrypoint: /entrypoint.sh
-  #  command: [ "/devicereg", "server", "--encoder", "http://encoder:8080", "--verbose" ]
+  devicereg:
+    build:
+      context: ./iotpilot
+      dockerfile: Dockerfile.devicereg
+    ports:
+      - "8082:8080"
+    restart: always
+    environment:
+      - DEVICEREG_DATABASE_URL=postgres://decode:password@postgres:5432/devicereg?sslmode=disable
+      - DEVICEREG_ENCRYPTION_PASSWORD=bKJW20u1PsvQSrmJojzoG2EJ
+    depends_on:
+      - postgres
+      - encoder
+    entrypoint: /entrypoint.sh
+    command: [ "/devicereg", "server", "--encoder", "http://encoder:8080", "--verbose" ]
 
   broker:
-    image: thingful/scfake:v0.0.2
+    image: thingful/scfake:v0.0.3
     ports:
       - "1883"
       - "8083:8080"
