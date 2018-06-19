@@ -2,6 +2,12 @@
 
 set -euo pipefail
 
+# Test key pairs
+USER_PRIV="AAW2IyunJhAb4s0h3DV0u+9HTJ+ju+N\/8VCqX1KLhEg="
+USER_PUB="BBWhzr+zqwfZRQ6SQOzsY+T\/USOBFBGD7p\/QC0TFoW7MKcwFRnCY+4Ywelye\/lof\/khRNPTwGl+Yed33h8ZjBkw="
+DEV_PRIV="Ao5d4+piIH83LmTz6KjJS2rS+CTLsa18wAvW5wRnfwU="
+DEV_PUB="BEKVgsm+s2G0yEjISM1xqaRdwayIIrzODpSyOOPu39d7IZr44LbezkZ0SwX7tj\/44R+q5KnDc1vA\/cACJ0lX9Xk="
+
 # This script attempts to invoke the RPC methods exposed by our components via
 # Curl just for quick local sanity checking. Requires base64, curl and jq tools
 # installed and available on the current $PATH to run.
@@ -28,7 +34,7 @@ function claim_device {
 function create_stream {
   print "create a stream"
 
-  local data="{\"brokerAddress\":\"tcp://broker:1883\",\"deviceTopic\":\"device/sck/$1/readings\",\"devicePrivateKey\":\"abc123\",\"recipientPublicKey\":\"hij567\",\"userUid\":\"alice\",\"location\":{\"longitude\":0.023,\"latitude\":55.253},\"disposition\":\"INDOOR\"}"
+  local data="{\"brokerAddress\":\"tcp://broker:1883\",\"deviceTopic\":\"device/sck/$1/readings\",\"devicePrivateKey\":\"$DEV_PRIV\",\"recipientPublicKey\":\"$USER_PUB\",\"userUid\":\"alice\",\"location\":{\"longitude\":0.023,\"latitude\":55.253},\"disposition\":\"INDOOR\"}"
 
   echo $data | jq "."
 
