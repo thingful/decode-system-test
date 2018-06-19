@@ -22,7 +22,22 @@ function claim_device {
        --header "Content-Type: application/json" \
        --verbose \
        --data "$data" \
-  #     | jq "."
+     | jq "."
+}
+
+function revoke_device {
+  print "revoke device"
+
+  local data="{\"deviceToken\":\"$1\",\"userPublicKey\":\"$2\"}"
+
+  echo $data | jq "."
+
+  curl --request "POST" \
+       --location "http://localhost:8082/twirp/devicereg.DeviceRegistration/RevokeDevice" \
+       --header "Content-Type: application/json" \
+       --verbose \
+       --data "$data" \
+     | jq "."
 }
 
 function create_stream {
@@ -64,6 +79,19 @@ function write_data {
 
   curl --request "POST" \
        --location "http://localhost:8080/twirp/datastore.Datastore/WriteData" \
+       --header "Content-Type: application/json" \
+       --verbose \
+       --data "$data" \
+    | jq "."
+}
+
+function read_data {
+  print "Reading data"
+
+  local data="{\"public_key\":\"$1\", \"page_size\":3}"
+
+  curl --request "POST" \
+       --location "http://localhost:8080/twirp/datastore.Datastore/ReadData" \
        --header "Content-Type: application/json" \
        --verbose \
        --data "$data" \
