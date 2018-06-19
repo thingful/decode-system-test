@@ -60,7 +60,7 @@ services:
       - postgres
       - encoder
     entrypoint: /entrypoint.sh
-    command: [ "/devicereg", "server", "--encoder", "http://encoder:8081", "--verbose" ]
+    command: [ "/devicereg", "server", "--encoder", "http://encoder:8080", "--verbose" ]
 
   broker:
     image: thingful/scfake:v0.0.2
