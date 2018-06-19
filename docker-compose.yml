@@ -63,7 +63,7 @@ services:
     command: [ "/devicereg", "server", "--encoder", "http://encoder:8080", "--verbose" ]
 
   broker:
-    image: thingful/scfake:v0.0.2
+    image: thingful/scfake:v0.0.3
     ports:
       - "1883"
       - "8083:8080"
