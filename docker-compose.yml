@@ -88,6 +88,19 @@ services:
     depends_on:
       - prometheus
 
+  webdemo:
+    image: thingful/decode-demo:7a159a9-dirty
+    ports:
+      - "5000:5000"
+    environment:
+      - DATA_STORE_URL=http://datastore:8080/twirp/devicereg.DeviceRegistration/ClaimDevice
+      - REGISTER_URL=http://devicereg:8080/twirp/datastore.Datastore/ReadData
+    depends_on:
+      - postgres
+      - encoder
+      - broker
+      - datastore
+
 volumes:
   postgres_vol:
   grafana_vol:
