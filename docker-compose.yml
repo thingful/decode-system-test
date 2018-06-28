@@ -89,7 +89,7 @@ services:
       - prometheus
 
   webdemo:
-    image: thingful/decode-demo:93970c3-dirty
+    image: thingful/decode-demo:v0.0.1
     ports:
       - "5000:5000"
     environment:
