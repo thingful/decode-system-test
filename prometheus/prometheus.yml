@@ -23,12 +23,12 @@ scrape_configs:
   - job_name: 'encoder'
     scrape_interval: 30s
     static_configs:
-      - targets: ['encoder:8080']
+      - targets: ['encoder:8081']
 
-  - job_name: 'devicereg'
+  - job_name: 'policystore'
     scrape_interval: 30s
     static_configs:
-      - targets: ['devicereg:8080']
+      - targets: ['policystore:8082']
 
   - job_name: 'broker'
     scrape_interval: 30s
