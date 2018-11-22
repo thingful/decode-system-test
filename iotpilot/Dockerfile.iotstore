@@ -1,2 +1,0 @@
-FROM thingful/iotstore-amd64:v0.0.5
-COPY entrypoint.sh /entrypoint.sh

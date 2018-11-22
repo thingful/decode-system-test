@@ -1,2 +1,0 @@
-FROM thingful/iotenc-amd64:v0.0.10
-COPY entrypoint.sh /entrypoint.sh
