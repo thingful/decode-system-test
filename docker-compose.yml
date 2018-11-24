@@ -14,14 +14,14 @@ services:
       - DATABASES=iotstore,iotencoder,policystore
 
   datastore:
-    image: thingful/iotstore-amd64:v0.2.4
+    image: thingful/iotstore-amd64:v0.3.0
     ports:
       - "8080:8080"
     environment:
       - IOTSTORE_DATABASE_URL=postgres://decode:password@postgres:5432/iotstore?sslmode=disable
     depends_on:
       - postgres
-    command: [ "server", "--verbose" ]
+    command: [ "server" ]
 
   policystore:
     image: thingful/policystore-amd64:v0.0.5
@@ -36,7 +36,7 @@ services:
     command: [ "server", "--verbose" ]
 
   encoder:
-    image: thingful/iotenc-amd64:v0.0.10-40-gfe32bcc-dirty
+    image: thingful/iotenc-amd64:v0.0.10-52-g7d3e26d-dirty
     ports:
       - "8081:8081"
     environment:
