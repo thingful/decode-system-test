@@ -12,7 +12,7 @@ components being developed for evolution 1 of the system.
 To run the components you should just be able to run:
 
 ```bash
-$ docker-compose up
+$ make start
 ```
 
 This should pull and start all components running, with some logic to ensure
@@ -23,13 +23,13 @@ Pressing Ctrl+C should then shut things down, but if you need to explicitly
 stop services, then you can run:
 
 ```bash
-$ docker-compose stop
+$ make stop
 ```
 
 Or to clean everything:
 
 ```bash
-$ docker-compose down -v
+$ make teardown
 ```
 
 This final command should remove all components including volumes and networks.
