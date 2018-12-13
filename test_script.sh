@@ -10,45 +10,15 @@ function print {
   echo "--> $1"
 }
 
-function claim_device {
-  print "claim device"
-
-  local data="{\"deviceToken\":\"$1\",\"broker\":\"tcp://broker:1883\",\"userUid\":\"$2\",\"location\":{\"longitude\":-0.2983,\"latitude\":55.5212},\"disposition\":\"INDOOR\"}"
-
-  echo $data | jq "."
-
-  curl --request "POST" \
-       --location "http://localhost:8082/twirp/devicereg.DeviceRegistration/ClaimDevice" \
-       --header "Content-Type: application/json" \
-       --verbose \
-       --data "$data" \
-     | jq "."
-}
-
-function revoke_device {
-  print "revoke device"
-
-  local data="{\"deviceToken\":\"$1\",\"userPublicKey\":\"$2\"}"
-
-  echo $data | jq "."
-
-  curl --request "POST" \
-       --location "http://localhost:8082/twirp/devicereg.DeviceRegistration/RevokeDevice" \
-       --header "Content-Type: application/json" \
-       --verbose \
-       --data "$data" \
-     | jq "."
-}
-
 function create_stream {
   print "create a stream"
 
-  local data="{\"brokerAddress\":\"tcp://broker:1883\",\"deviceTopic\":\"device/sck/$1/readings\",\"devicePrivateKey\":\"abc123\",\"recipientPublicKey\":\"hij567\",\"userUid\":\"alice\",\"location\":{\"longitude\":0.023,\"latitude\":55.253},\"disposition\":\"INDOOR\"}"
+  local data="{\"device_token\":\"$1\",\"policy_id\":\"$2\",\"recipient_public_key\":\"$3\",\"location\":{\"longitude\":0.023,\"latitude\":55.253},\"exposure\":\"INDOOR\",\"operations\":[]}"
 
-  echo $data | jq "."
+  echo "$data" | jq "."
 
   curl --request "POST" \
-       --location "http://localhost:8081/twirp/encoder.Encoder/CreateStream" \
+       --location "http://localhost:8081/twirp/decode.iot.encoder.Encoder/CreateStream" \
        --header "Content-Type: application/json" \
        --verbose \
        --data "$data" \
@@ -58,12 +28,12 @@ function create_stream {
 function delete_stream {
   print "delete a stream"
 
-  local data="{\"streamUid\":\"$1\"}"
+  local data="{\"stream_uid\":\"$1\",\"token\":\"$2\"}"
 
-  echo $data | jq "."
+  echo "$data" | jq "."
 
   curl --request "POST" \
-       --location "http://localhost:8081/twirp/encoder.Encoder/DeleteStream" \
+       --location "http://localhost:8081/twirp/decode.iot.encoder.Encoder/DeleteStream" \
        --header "Content-Type: application/json" \
        --verbose \
        --data "$data" \
@@ -73,7 +43,7 @@ function delete_stream {
 function write_data {
   print "write data"
 
-  local encrypted_msg=$(echo secret | base64)
+  local encrypted_msg="$(echo secret | base64)"
 
   local data="{\"public_key\":\"$1\",\"user_uid\":\"$2\",\"data\":\"$encrypted_msg\"}"
 
