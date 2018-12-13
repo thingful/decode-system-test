@@ -14,7 +14,7 @@ services:
       - DATABASES=iotstore,iotencoder,policystore
 
   datastore:
-    image: thingful/iotstore-amd64:v0.3.0
+    image: thingful/iotstore-amd64:v0.3.1
     ports:
       - "8080:8080"
     environment:
@@ -24,7 +24,7 @@ services:
     command: [ "server" ]
 
   policystore:
-    image: thingful/policystore-amd64:v0.0.5
+    image: thingful/policystore-amd64:v0.0.6
     ports:
       - "8082:8082"
     environment:
@@ -36,16 +36,18 @@ services:
     command: [ "server", "--verbose" ]
 
   encoder:
-    image: thingful/iotenc-amd64:v0.0.10-52-g7d3e26d-dirty
+    image: thingful/iotenc-amd64:v0.1.0
     ports:
       - "8081:8081"
     environment:
       - IOTENCODER_DATABASE_URL=postgres://decode:password@postgres:5432/iotencoder?sslmode=disable
       - IOTENCODER_ENCRYPTION_PASSWORD=UZicimoFtGAzjGtC65gZcA==
       - IOTENCODER_HASHID_SALT=9iLI2qRrwc5FOIZKuKOHhg==
+      - IOTENCODER_REDIS_URL=redis://redis:6379/1
     depends_on:
       - postgres
-    command: [ "server", "--verbose", "--datastore", "http://datastore:8080", "--broker-addr", "tcp://broker:1883" ]
+      - redis
+    command: [ "server", "--verbose", "--datastore", "http://datastore:8080" ]
 
   broker:
     image: thingful/scfake:v0.0.3
@@ -72,17 +74,20 @@ services:
     depends_on:
       - prometheus
 
-        #  webdemo:
-        #    image: thingful/decode-demo:v0.0.1
-        #    ports:
-        #      - "5000:5000"
-        #    environment:
-        #      - DATA_STORE_URL=http://datastore:8080/twirp/datastore.Datastore/ReadData
-        #      - REGISTER_URL=http://devicereg:8080/twirp/devicereg.DeviceRegistration/ClaimDevice
-        #    depends_on:
-        #      - postgres
-        #      - broker
-        #      - datastore
+  redis:
+    image: redis:5-alpine
+
+  webdemo:
+    image: thingful/decode-demo:v0.0.3
+    ports:
+      - "5000:5000"
+    environment:
+      - DATASTORE_BASE=http://datastore:8080/twirp/decode.iot.datastore.Datastore/
+      - ENCODER_URL=http://encoder:8081/twirp/decode.iot.encoder.Encoder/
+    depends_on:
+      - postgres
+      - broker
+      - datastore
 
 volumes:
   postgres_vol:
