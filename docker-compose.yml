@@ -4,7 +4,7 @@ services:
     build:
       context: ./postgres
     ports:
-      - "5432:5432"
+      - "5432"
     volumes:
       - postgres_vol:/var/lib/postgresql/data
     environment:
@@ -14,48 +14,40 @@ services:
       - DATABASES=iotstore,iotencoder,policystore
 
   datastore:
-    image: thingful/iotstore-amd64:v0.3.1
+    image: thingful/iotstore-amd64:v0.3.8
     ports:
       - "8080:8080"
     environment:
       - IOTSTORE_DATABASE_URL=postgres://decode:password@postgres:5432/iotstore?sslmode=disable
     depends_on:
       - postgres
-    command: [ "server" ]
+    command: [ "server", "--verbose" ]
 
   policystore:
-    image: thingful/policystore-amd64:v0.0.6
+    image: thingful/policystore-amd64:v0.1.0
     ports:
       - "8082:8082"
     environment:
       - POLICYSTORE_DATABASE_URL=postgres://decode:password@postgres:5432/policystore?sslmode=disable
       - POLICYSTORE_ENCRYPTION_PASSWORD=Sf5WUu1cF3Xovc8uVmjkUg==
-      - POLICYSTORE_HASHID_SALT=iUe5l1NGT85p7MHPAyaXIA==
+      - POLICYSTORE_HASHID_SALT=HQdpz0JuSmzhwSeQ47qnGg==
     depends_on:
       - postgres
     command: [ "server", "--verbose" ]
 
   encoder:
-    image: thingful/iotenc-amd64:v0.1.0
+    image: thingful/iotenc-amd64:v0.1.10
     ports:
       - "8081:8081"
     environment:
       - IOTENCODER_DATABASE_URL=postgres://decode:password@postgres:5432/iotencoder?sslmode=disable
       - IOTENCODER_ENCRYPTION_PASSWORD=UZicimoFtGAzjGtC65gZcA==
-      - IOTENCODER_HASHID_SALT=9iLI2qRrwc5FOIZKuKOHhg==
+      - IOTENCODER_HASHID_SALT=U+96W/XJhqv1Lp7zhyM8Ww==
       - IOTENCODER_REDIS_URL=redis://redis:6379/1
     depends_on:
       - postgres
       - redis
     command: [ "server", "--verbose", "--datastore", "http://datastore:8080" ]
-
-  broker:
-    image: thingful/scfake:v0.0.3
-    ports:
-      - "1883"
-      - "8083:8080"
-    environment:
-      - HTTP_PORT=8080
 
   prometheus:
     image: prom/prometheus:v2.2.1
@@ -77,17 +69,24 @@ services:
   redis:
     image: redis:5-alpine
 
-  webdemo:
-    image: thingful/decode-demo:v0.0.3
+  demo:
+    image: thingful/decode-demo:v0.1.1
     ports:
-      - "5000:5000"
+      - "4000:4000"
+      - "4001:4001"
     environment:
-      - DATASTORE_BASE=http://datastore:8080/twirp/decode.iot.datastore.Datastore/
-      - ENCODER_URL=http://encoder:8081/twirp/decode.iot.encoder.Encoder/
+      - SECRET_KEY_BASE=GX5JyPRHZK2PrVtkqwDdjL9ZTWbDK3n9XOzwL6kKoYD5GGxihkwtIHTCfqKpCYn3
+      - DATASTORE_BASE_URL=http://datastore:8080
+      - ENCODER_BASE_URL=http://encoder:8081
+      - POLICYSTORE_BASE_URL=http://policystore:8082
+      - HOST=localhost
+      - PORT=4000
+      - TLS_PORT=4001
+      - MIX_ENV=prod
     depends_on:
-      - postgres
-      - broker
       - datastore
+      - encoder
+      - policystore
 
 volumes:
   postgres_vol:
