@@ -49,9 +49,10 @@ Once everything has started you should have the following components running:
 * The IoT policystore (listening on http://localhost:8082)
 * Prometheus (listening on http://localhost:9090)
 * Grafana (listening on http://localhost:3000)
-* Web demo service (listening on https://localhost:4001) - note this service
-  runs over TLS with a self signed certificate which will case scary warnings.
-  This is to support a library which captures the webcam for QR code scanning.
+* Web demo service (listening on https://localhost:4000) - note this service
+  runs over TLS with a self signed certificate which will case alarming browser
+  warnings.  This is to support a library which captures the webcam for QR code
+  scanning.
 
 ## Component Configuration
 
