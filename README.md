@@ -76,6 +76,7 @@ required.
 | --key-file or -k     | IOTSTORE_KEY_FILE     | The path to a TLS key file to enable TLS         |               | No       |
 | --verbose            | IOTSTORE_VERBOSE      | Flag that if set enables verbose mode            | False         | No       |
 | --database-url or -d | IOTSTORE_DATABASE_URL | Connection string for Postgres database          |               | Yes      |
+|                      | SENTRY_DSN            | Optional DSN string for Sentry error reporting   |               | No       |
 
 ### Encoder
 
@@ -121,12 +122,13 @@ required.
 
 **Configuration for `server` command**
 
-| Flag                  | Environment Variable            | Description                                  | Default value | Required |
-| --------------------- | ------------------------------- | -------------------------------------------- | ------------- | -------- |
-| --addr or -a          | POLICYSTORE_ADDR                | The address to which the server binds        | 0.0.0.0:8082  | No       |
-| --cert-file or -c     | POLICYSTORE_CERT_FILE           | Path to a TLS certificate file to enable TLS |               | No       |
-| --database-url or -d  | POLICYSTORE_DATABASE_URL        | URL at which Postgres is listening           |               | Yes      |
-| --encryption-password | POLICYSTORE_ENCRYPTION_PASSWORD | Password used to encrypt secrets in the DB   |               | Yes      |
-| --hashid-length or -l | POLICYSTORE_HASHID_LENGTH       | Minimum length of generated IDs              | 8             | No       |
-| --hashid-salt         | POLICYSTORE_HASHID_SALT         | Salt value used when generating IDs          |               | Yes      |
-| --key-file or -k      | POLICYSTORE_KEY_FILE            | Path to a TLS key file to enable TLS         |               | No       |
+| Flag                  | Environment Variable            | Description                                    | Default value | Required |
+| --------------------- | ------------------------------- | ---------------------------------------------- | ------------- | -------- |
+| --addr or -a          | POLICYSTORE_ADDR                | The address to which the server binds          | 0.0.0.0:8082  | No       |
+| --cert-file or -c     | POLICYSTORE_CERT_FILE           | Path to a TLS certificate file to enable TLS   |               | No       |
+| --database-url or -d  | POLICYSTORE_DATABASE_URL        | URL at which Postgres is listening             |               | Yes      |
+| --encryption-password | POLICYSTORE_ENCRYPTION_PASSWORD | Password used to encrypt secrets in the DB     |               | Yes      |
+| --hashid-length or -l | POLICYSTORE_HASHID_LENGTH       | Minimum length of generated IDs                | 8             | No       |
+| --hashid-salt         | POLICYSTORE_HASHID_SALT         | Salt value used when generating IDs            |               | Yes      |
+| --key-file or -k      | POLICYSTORE_KEY_FILE            | Path to a TLS key file to enable TLS           |               | No       |
+|                       | SENTRY_DSN                      | Optional DSN string for Sentry error reporting |               | No       |
