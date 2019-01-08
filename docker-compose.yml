@@ -70,7 +70,7 @@ services:
     image: redis:5-alpine
 
   demo:
-    image: thingful/decode-demo:v0.1.1
+    image: thingful/decode-demo:v0.1.3
     ports:
       - "4000:4000"
       - "4001:4001"
@@ -79,9 +79,9 @@ services:
       - DATASTORE_BASE_URL=http://datastore:8080
       - ENCODER_BASE_URL=http://encoder:8081
       - POLICYSTORE_BASE_URL=http://policystore:8082
+      - TLS_PORT=4000
+      - PORT=4001
       - HOST=localhost
-      - PORT=4000
-      - TLS_PORT=4001
       - MIX_ENV=prod
     depends_on:
       - datastore
