@@ -56,6 +56,9 @@ Once everything has started you should have the following components running:
 
 ## Component Configuration
 
+For sensitive configuration values, you can add a `.env` file based on the
+template file included here.
+
 ### Datastore
 
 The binary generated for this application is called `iotstore`. It has the following four subcommands:
