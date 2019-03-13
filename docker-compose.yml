@@ -64,17 +64,6 @@ services:
   redis:
     image: redis:5-alpine
 
-  demo:
-    image: thingful/decode-demo:v0.1.4
-    ports:
-      - "4000:4000"
-      - "4001:4001"
-    env_file: .env
-    depends_on:
-      - datastore
-      - encoder
-      - policystore
-
 volumes:
   postgres_vol:
   grafana_vol:
