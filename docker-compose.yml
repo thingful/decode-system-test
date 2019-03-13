@@ -9,33 +9,40 @@ services:
     volumes:
       - postgres_vol:/var/lib/postgresql/data
 
+  haproxy:
+    image: haproxy:1.9.4-alpine
+    ports:
+      - "443:443"
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+
   datastore:
-    image: decodeproject/iotstore-amd64:v0.3.14
+    image: decodeproject/iotstore-amd64:v0.4.1
     ports:
       - "8080:8080"
     depends_on:
       - postgres
     env_file: .env
-    command: [ "server" ]
+    command: [ "server", "--addr", ":8080", "--verbose", "--domains", "datastore.decode.smartcitizen.me" ]
 
   policystore:
-    image: decodeproject/policystore-amd64:v0.1.4
+    image: decodeproject/policystore-amd64:v0.2.0
     ports:
       - "8082:8082"
     depends_on:
       - postgres
     env_file: .env
-    command: [ "server" ]
+    command: [ "server", "--addr", ":8082", "--verbose", "--domains", "policystore.decode.smartcitizen.me" ]
 
   encoder:
-    image: decodeproject/iotenc-amd64:v0.1.12
+    image: decodeproject/iotenc-amd64:v0.2.1
     ports:
       - "8081:8081"
     depends_on:
       - postgres
       - redis
     env_file: .env
-    command: [ "server", "--datastore", "http://datastore:8080" ]
+    command: [ "server", "--addr", ":8081", "--datastore", "http://datastore:8080", "--verbose", "--domains", "encoder.decode.smartcitizen.me" ]
 
   prometheus:
     image: prom/prometheus:v2.2.1
@@ -56,17 +63,6 @@ services:
 
   redis:
     image: redis:5-alpine
-
-  demo:
-    image: thingful/decode-demo:v0.1.4
-    ports:
-      - "4000:4000"
-      - "4001:4001"
-    env_file: .env
-    depends_on:
-      - datastore
-      - encoder
-      - policystore
 
 volumes:
   postgres_vol:
