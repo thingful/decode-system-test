@@ -30,11 +30,6 @@ scrape_configs:
     static_configs:
       - targets: ['policystore:8082']
 
-  - job_name: 'broker'
-    scrape_interval: 30s
-    static_configs:
-      - targets: ['broker:8080']
-
   - job_name: 'grafana'
     scrape_interval: 30s
     static_configs:
