@@ -32,7 +32,7 @@ services:
     depends_on:
       - postgres
     env_file: .env
-    command: [ "server", "--addr", ":8082", "--verbose", "--domains", "policystore.decode.smartcitizen.me" ]
+    command: [ "server", "--addr", ":8082", "--verbose", "--domains", "policystore.decode.smartcitizen.me", "--dashboard-url", "http://84.88.76.45:887" ]
 
   encoder:
     image: decodeproject/iotenc-amd64:v0.2.1
