@@ -17,18 +17,21 @@ scrape_configs:
 
   - job_name: 'datastore'
     scrape_interval: 30s
+    scheme: https
     static_configs:
-      - targets: ['datastore:8080']
+      - targets: ['datastore.decode.smartcitizen.me']
 
   - job_name: 'encoder'
     scrape_interval: 30s
+    scheme: https
     static_configs:
-      - targets: ['encoder:8081']
+      - targets: ['encoder.decode.smartcitizen.me']
 
   - job_name: 'policystore'
     scrape_interval: 30s
+    scheme: https
     static_configs:
-      - targets: ['policystore:8082']
+      - targets: ['policystore.decode.smartcitizen.me']
 
   - job_name: 'grafana'
     scrape_interval: 30s
