@@ -27,7 +27,7 @@ services:
     command: [ "server", "--addr", ":8080", "--verbose", "--domains", "datastore.decode.smartcitizen.me" ]
 
   policystore:
-    image: decodeproject/policystore-amd64:v0.2.1
+    image: decodeproject/policystore-amd64:v0.2.2
     ports:
       - "8082"
     depends_on:
