@@ -1,4 +1,6 @@
 
+DB := policystore
+
 .PHONY: start
 start:
 	@docker-compose up
@@ -18,4 +20,11 @@ teardown:
 .PHONY: psql
 psql:
 	@docker-compose start postgres
-	@docker-compose exec postgres psql
+	@docker-compose exec postgres psql -U decode $(DB)
+
+.PHONY: redeploy
+redeploy:
+	@docker-compose stop
+	@git pull
+	@docker-compose pull
+	@docker-compose up -d
