@@ -26,7 +26,7 @@ services:
     command: [ "server", "--addr", ":8080", "--verbose", "--domains", "datastore.decode.smartcitizen.me" ]
 
   policystore:
-    image: decodeproject/policystore-amd64:v0.2.0
+    image: decodeproject/policystore-amd64:v0.2.1
     ports:
       - "8082:8082"
     depends_on:
@@ -35,7 +35,7 @@ services:
     command: [ "server", "--addr", ":8082", "--verbose", "--domains", "policystore.decode.smartcitizen.me", "--dashboard-url", "http://84.88.76.45:887" ]
 
   encoder:
-    image: decodeproject/iotenc-amd64:v0.2.1
+    image: decodeproject/iotenc-amd64:v0.2.2
     ports:
       - "8081:8081"
     depends_on:
