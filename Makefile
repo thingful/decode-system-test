@@ -14,3 +14,8 @@ stop:
 .PHONY: teardown
 teardown:
 	@docker-compose down -v
+
+.PHONY: psql
+psql:
+	@docker-compose start postgres
+	@docker-compose exec postgres psql
