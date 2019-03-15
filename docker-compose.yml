@@ -43,7 +43,7 @@ services:
       - postgres
       - redis
     env_file: .env
-    command: [ "server", "--addr", ":8081", "--datastore", "http://datastore:8080", "--verbose", "--domains", "encoder.decode.smartcitizen.me" ]
+    command: [ "server", "--addr", ":8081", "--datastore", "https://datastore.decode.smartcitizen..me", "--verbose", "--domains", "encoder.decode.smartcitizen.me" ]
 
   prometheus:
     image: prom/prometheus:v2.2.1
