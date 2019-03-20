@@ -24,7 +24,7 @@ services:
     depends_on:
       - postgres
     env_file: .env
-    command: [ "server", "--addr", ":8080", "--verbose", "--domains", "datastore.decode.smartcitizen.me" ]
+    command: [ "server", "--addr", ":8080", "--domains", "datastore.decode.smartcitizen.me" ]
 
   policystore:
     image: decodeproject/policystore-amd64:v0.2.3
@@ -33,7 +33,7 @@ services:
     depends_on:
       - postgres
     env_file: .env
-    command: [ "server", "--addr", ":8082", "--verbose", "--domains", "policystore.decode.smartcitizen.me", "--dashboard-url", "http://84.88.76.45:887" ]
+    command: [ "server", "--addr", ":8082", "--domains", "policystore.decode.smartcitizen.me", "--dashboard-url", "http://84.88.76.45:887" ]
 
   encoder:
     image:  decodeproject/iotenc-amd64:v0.2.4
@@ -43,7 +43,7 @@ services:
       - postgres
       - redis
     env_file: .env
-    command: [ "server", "--addr", ":8081", "--datastore", "https://datastore.decode.smartcitizen.me", "--verbose", "--domains", "encoder.decode.smartcitizen.me" ]
+    command: [ "server", "--addr", ":8081", "--datastore", "https://datastore.decode.smartcitizen.me", "--domains", "encoder.decode.smartcitizen.me" ]
 
   prometheus:
     image: prom/prometheus:v2.2.1
