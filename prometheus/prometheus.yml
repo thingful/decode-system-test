@@ -16,19 +16,19 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   - job_name: 'datastore'
-    scrape_interval: 30s
+    scrape_interval: 10s
     scheme: https
     static_configs:
       - targets: ['datastore.decode.smartcitizen.me']
 
   - job_name: 'encoder'
-    scrape_interval: 30s
+    scrape_interval: 10s
     scheme: https
     static_configs:
       - targets: ['encoder.decode.smartcitizen.me']
 
   - job_name: 'policystore'
-    scrape_interval: 30s
+    scrape_interval: 10s
     scheme: https
     static_configs:
       - targets: ['policystore.decode.smartcitizen.me']
@@ -37,3 +37,9 @@ scrape_configs:
     scrape_interval: 30s
     static_configs:
       - targets: ['grafana:3000']
+
+  - job_name: 'postgres'
+    scrape_interval: 10s
+    scheme: http
+    static_configs:
+      - targets: ['pg_exporter:9187']
