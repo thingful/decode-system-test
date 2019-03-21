@@ -65,6 +65,15 @@ services:
   redis:
     image: redis:5-alpine
 
+  pg_exporter:
+    image: wrouesnel/postgres_exporter:latest
+    ports:
+      - "9187"
+    env_file: .env
+    depends_on:
+      - postgres
+
+
 volumes:
   postgres_vol:
   grafana_vol:
