@@ -48,4 +48,4 @@ scrape_configs:
     scrape_interval: 10s
     scheme: http
     static_configs:
-      - targs: ['redis_exporter:9121']
+      - targets: ['redis_exporter:9121']
