@@ -79,6 +79,14 @@ services:
     depends_on:
       - postgres
 
+  redis_exporter:
+    image: oliver006/redis_exporter
+    ports:
+      - "9121"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_ADDR=redis://redis:6379
 
 volumes:
   postgres_vol:

@@ -43,3 +43,9 @@ scrape_configs:
     scheme: http
     static_configs:
       - targets: ['pg_exporter:9187']
+
+  - job_name: 'redis'
+    scrape_interval: 10s
+    scheme: http
+    static_configs:
+      - targs: ['redis_exporter:9121']
