@@ -26,7 +26,7 @@ services:
     env_file:
       - .env
       - datastore.env
-    command: [ "server", "--addr", ":8080", "--domains", "datastore.decode.smartcitizen.me" ]
+    command: [ "server", "--addr", ":8080" ]
 
   policystore:
     image: decodeproject/policystore-amd64:v0.2.4
@@ -37,7 +37,7 @@ services:
     env_file:
       - .env
       - policystore.env
-    command: [ "server", "--addr", ":8082", "--domains", "policystore.decode.smartcitizen.me", "--dashboard-url", "http://84.88.76.45:887" ]
+    command: [ "server", "--addr", ":8082", "--dashboard-url", "http://84.88.76.45:887" ]
 
   encoder:
     image:  decodeproject/iotenc-amd64:v0.2.5
@@ -49,7 +49,7 @@ services:
     env_file:
       - .env
       - encoder.env
-    command: [ "server", "--addr", ":8081", "--datastore", "https://datastore.decode.smartcitizen.me", "--domains", "encoder.decode.smartcitizen.me" ]
+    command: [ "server", "--addr", ":8081", "--datastore", "https://datastore.decode.smartcitizen.me" ]
 
   prometheus:
     image: prom/prometheus:v2.2.1
