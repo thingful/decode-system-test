@@ -3,7 +3,7 @@ DB := policystore
 
 .PHONY: start
 start:
-	@docker-compose up
+	@docker-compose up -d
 
 .PHONY: build
 build:
