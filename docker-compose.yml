@@ -40,7 +40,7 @@ services:
     command: [ "server", "--addr", ":8082" ]
 
   encoder:
-    image:  decodeproject/iotenc-amd64:v0.2.6-7-g0dc56a5
+    image:  decodeproject/iotenc-amd64:v0.2.7
     ports:
       - "8081"
     depends_on:
