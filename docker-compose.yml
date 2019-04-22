@@ -49,7 +49,7 @@ services:
     env_file:
       - .env
       - encoder.env
-    command: [ "server", "--addr", ":8081", "--datastore", "https://datastore.decodeproject.eu", "--verbose" ]
+    command: [ "server", "--addr", ":8081", "--datastore", "https://datastore.decodeproject.eu" ]
 
   prometheus:
     image: prom/prometheus:v2.2.1
