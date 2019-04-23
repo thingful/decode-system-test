@@ -27,6 +27,7 @@ services:
       - .env
       - datastore.env
     command: [ "server", "--addr", ":8080" ]
+    restart: on-failure
 
   policystore:
     image: decodeproject/policystore-amd64:v0.3.1
@@ -38,6 +39,7 @@ services:
       - .env
       - policystore.env
     command: [ "server", "--addr", ":8082" ]
+    restart: on-failure
 
   encoder:
     image:  decodeproject/iotenc-amd64:v0.2.7
@@ -50,6 +52,7 @@ services:
       - .env
       - encoder.env
     command: [ "server", "--addr", ":8081", "--datastore", "https://datastore.decodeproject.eu" ]
+    restart: on-failure
 
   prometheus:
     image: prom/prometheus:v2.2.1
