@@ -104,7 +104,6 @@ required.
 | --encryption-password | IOTENCODER_ENCRYPTION_PASSWORD | Password used to encrypt secret tokens we write to Postgres |                                  | Yes      |
 | --hashid-length or -l | IOTENCODER_HASHID_LENGTH       | Minimum length of generated ids for streams                 | 8                                | No       |
 | --hashid-salt         | IOTENCODER_HASHID_SALT         | Salt value used for generating ids for streams              |                                  | Yes      |
-| --redis-url           | IOTENCODER_REDIS_URL           | URL at which Redis is listening                             |                                  | Yes      |
 | --verbose             | IOTENCODER_VERBOSE             | Flag that if set enables verbose mode                       | False                            | No       |
 |                       | SENTRY_DSN                     | Optional DSN string for Sentry error reporting              |                                  | No       |
 

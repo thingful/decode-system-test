@@ -42,12 +42,11 @@ services:
     restart: on-failure
 
   encoder:
-    image:  decodeproject/iotenc-amd64:v0.2.7
+    image:  decodeproject/iotenc-amd64:v0.3.0
     ports:
       - "8081"
     depends_on:
       - postgres
-      - redis
     env_file:
       - .env
       - encoder.env
@@ -71,9 +70,6 @@ services:
     depends_on:
       - prometheus
 
-  redis:
-    image: redis:5-alpine
-
   pg_exporter:
     image: wrouesnel/postgres_exporter:latest
     ports:
@@ -81,15 +77,6 @@ services:
     env_file: .env
     depends_on:
       - postgres
-
-  redis_exporter:
-    image: oliver006/redis_exporter
-    ports:
-      - "9121"
-    depends_on:
-      - redis
-    environment:
-      - REDIS_ADDR=redis://redis:6379
 
 volumes:
   postgres_vol:
