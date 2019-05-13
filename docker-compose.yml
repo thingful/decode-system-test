@@ -42,7 +42,7 @@ services:
     restart: on-failure
 
   encoder:
-    image:  decodeproject/iotenc-amd64:v0.4.1
+    image:  decodeproject/iotenc-amd64:v0.4.2
     ports:
       - "8081"
     depends_on:
